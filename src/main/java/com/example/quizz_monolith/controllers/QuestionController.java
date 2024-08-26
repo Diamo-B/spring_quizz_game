@@ -25,18 +25,17 @@ public class QuestionController {
     }
 
     @GetMapping("/category/{category}")
-    public List<Question> getAllQuestionsByCategory(@PathVariable String category){
+    public ResponseEntity<List<Question>> getAllQuestionsByCategory(@PathVariable String category){
         return service.getByCategory(category);
     }
 
     @PostMapping("/add")
-    public Question addQuestion(@RequestBody Question question){
+    public ResponseEntity<?> addQuestion(@RequestBody Question question){
         return service.addQuestion(question);
     }
 
     @DeleteMapping("/{questionId}")
-    public String deleteQuestion(@PathVariable Long questionId){
-        service.deleteQuestion(questionId);
-        return "Deleted successfully";
+    public ResponseEntity<String> deleteQuestion(@PathVariable Long questionId){
+        return service.deleteQuestion(questionId);
     }
 }

@@ -30,15 +30,30 @@ public class QuestionService {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public List<Question> getByCategory(String category) {
-        return dao.findByCategory(category);
+    public ResponseEntity<List<Question>> getByCategory(String category) {
+        try{
+            return new ResponseEntity<>(dao.findByCategory(category), HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public Question addQuestion(Question question){
-        return dao.save(question);
+    public ResponseEntity<?> addQuestion(Question question){
+        try {
+           return new ResponseEntity<>(dao.save(question), HttpStatus.CREATED);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("Error!! can't create a new question", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public void deleteQuestion(Long questionId) {
-        dao.deleteById(questionId);
+    public ResponseEntity<String> deleteQuestion(Long questionId) {
+        try {
+            return new ResponseEntity<>("Deleted", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("Error!! can't delete this question", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
